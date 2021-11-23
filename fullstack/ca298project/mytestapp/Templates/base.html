@@ -1,0 +1,85 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Stephen Walsh, Mudiaga Jerry Dortie">
+    <title>{% block title %}{% endblock %}</title>
+    <!-- Bootstrap and paper.css Ref: https://www.getpapercss.com/-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/paper.css' %}">
+
+    <style>
+        h1 {text-align: center;}
+        h2 {color: dodgerblue;}
+        h3 {text-align: center;}
+        h4 {color: dodgerblue;}
+        p {text-align: center;}
+        div {text-align: center;}
+
+        ul {
+            display: flex;
+            float: right;
+            list-style: none;
+            height: 100%;
+        }
+
+{#image-container {#}
+{#  background: url(img/bg.jpeg) no-repeat center center fixed;#}
+{#  -webkit-background-size: cover;#}
+{#  -moz-background-size: cover;#}
+{#  -o-background-size: cover;#}
+{#  background-size: cover;#}
+{#}#}
+
+  </style>
+
+  </head>
+
+
+  <body>
+<div id="header">
+    <header>
+    <div class="d-flex justify-content-center">
+     <nav>
+      <div class="paper container">
+          <div class="nav-bar">
+            <ul>
+
+                {% if user.is_authenticated %}
+                    <h4>Welcome {{ user.username }}</h4>
+                    <li><button onclick="document.location='/logout'">Logout</button></li>
+                {% else %}
+                    <li><button onclick="document.location='/login'">Login</button></li>
+                {% endif %}
+
+                <li><button onclick="document.location='/'">Home</button></li>
+                <li><button onclick="document.location='/allproducts'">All Products</button></li>
+                <li><button onclick="document.location='/singleproduct/2'">Single Product</button></li>
+                <li><button onclick="document.location='/myform'">My Form</button></li>
+                <li><button onclick="document.location='/basket'">Shopping Basket</button></li>
+            </ul>
+          </div>
+      </div>
+    </nav>
+    </div>
+        <h1>The Station Place</h1>
+    </header>
+</div>
+
+
+
+    {% block content %}
+    {% endblock %}
+
+
+    <footer class="container pt-5">
+          <h3>Shop with us!</h3>
+      <p>©️ 2021 The Station Place · Student Project · Stephen Walsh · Mudiaga Jerry Dortie</p>
+    </footer>
+    </body>
+</html>
+

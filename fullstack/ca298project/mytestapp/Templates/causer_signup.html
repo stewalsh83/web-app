@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}
+    Sign Up
+{% endblock %}
+
+{% block content %}
+    <header>
+      <h3>User Sign Up</h3>
+    </header>
+   <div class="paper container">
+    <form action="." method="POST">
+    {% csrf_token %}
+    {{ form.as_table }}
+        <button type="submit">SUBMIT</button>
+    </form>
+   </div>
+{% endblock %}

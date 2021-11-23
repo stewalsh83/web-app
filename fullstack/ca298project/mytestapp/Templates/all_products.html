@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+    All Products
+{% endblock %}
+
+
+
+{% block content %}
+
+    {% block headercontent %}
+    <h3>All Product</h3>
+    {% endblock %}
+
+    {% for p in products %}
+        <div>
+            Name {{ p.name }} <br>
+            Description {{ p.descrption }} <br>
+            Price {{ p.price }}<br>
+            <img src="{{ product.picture.url }}" alt="#">
+        </div>
+    {%  endfor %}
+
+<div class="d-flex justify-content-center">
+    <div class="card" style="width: 18rem;">
+      <img class="card-img-top" src="{% static "/img/stapler.jpg" %}" alt="Card image cap">
+       <div class="card-body">
+         <h5 class="card-title">Stapler</h5>
+         <p class="card-text">Item used joining pages of paper together</p>
+           <button onclick="document.location='/singleproduct/2'">Stapler</button>
+      </div>
+   </div>
+    <div class="card" style="width: 18rem;">
+      <img class="card-img-top" src="{% static "/img/sn.jpg" %}" alt="Card image cap">
+       <div class="card-body">
+         <h5 class="card-title">Sticky Notes</h5>
+         <p class="card-text">Create quick reminders</p>
+           <button onclick="document.location='/singleproduct/3'">Sticky Notes</button>
+      </div>
+   </div>
+    <div class="card" style="width: 18rem;">
+      <img class="card-img-top" src="{% static "/img/folder.jpg" %}" alt="Card image cap">
+       <div class="card-body">
+         <h5 class="card-title">Binder Folder</h5>
+         <p class="card-text">Binder folder used for storing documents</p>
+           <button onclick="document.location='/singleproduct/4'">Folder</button>
+      </div>
+   </div>
+</div>
+{% endblock %}

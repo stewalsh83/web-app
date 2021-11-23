@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+    Login
+{% endblock %}
+
+{% block content %}
+    <header>
+      <h3>Login</h3>
+    </header>
+
+
+    <div class="paper container">
+    <div class="d-flex justify-content-center">
+    <div class="card" style="width: 18rem;">
+      <img class="card-img-top" src="{% static "/img/bg.jpeg" %}" alt="Card image cap">
+      </div>
+   </div>
+
+    <form action="." method="POST">
+        {% csrf_token %}
+        {{ form.as_table }}
+        <button type="submit">SUBMIT</button>
+    </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+{% block title %}
+    Index Page
+{% endblock %}
+
+{% block content %}
+    <header>
+      <h3>Welcome to the Home Page</h3>
+    </header>
+{#    <p>#}
+{#         <img src="{% static "/img/main1.png" %}" width = "300" height = "150">#}
+{#    </p>#}
+<div class="d-flex justify-content-center">
+    <div class="card" style="width: 14rem;">
+      <img class="card-img-top" src="{% static "/img/main1.png" %}" alt="Card image cap">
+       <div class="card-body">
+         <h5 class="card-title">Sign up and start shopping.</h5>
+         <p class="card-text">A place to buy all your stationery supplies.</p>
+           <button onclick="document.location='/usersignup'">Sign Up</button>
+      </div>
+   </div>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}
+    Order Form
+{% endblock %}
+
+{% block content %}
+    <header>
+    <h3>Checkout</h3>
+    </header>
+<div class="paper container">
+    <table>
+    <thead>
+    <tr>
+        <td>Item</td>
+        <td>Price</td>
+        <td>Quantity</td>
+        <td>Total</td>
+        <td></td>
+    </tr>
+    </thead>
+    <tbody>
+        {% for i in items %}
+            <tr>
+            <td>{{ i.product.name }}</td>
+            <td>{{ i.product.price }}</td>
+            <td>{{ i.quantity }}</td>
+            <td>{{ i.price }}</td>
+            <td><button><a href="{% url 'remove_basket' sbi=i.id %}">Remove</a></button></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+
+    <p> Total price {{ basket.price }}</p>
+    <form action="." method="POST">
+        {% csrf_token %}
+        {{ form.as_table }}
+        <button>Submit</button>
+{#        <input type="submit" value="Submit">#}
+    </form>
+</div>
+{% endblock %}

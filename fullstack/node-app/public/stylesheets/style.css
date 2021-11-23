@@ -1,0 +1,53 @@
+
+h1, h3 {
+  color: #00B7FF;
+}
+
+table {
+  color: #FFFFFF;
+  font-size: 20px;
+  text-align: center;
+  font-family: verdana;
+  padding: auto;
+  margin: auto;
+  background-color: #32313d;
+}
+
+table {
+  border: 1px solid black;
+}
+
+tr, td {
+  border-bottom: 1px solid #ddd;
+}
+
+div {
+  width: 300px;
+  border: 2px solid red;
+  padding: 10px;
+  margin: 20px;
+}
+
+
+/* img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border: 5px white;
+} */
+
+button, input[type=button], input[type=submit] {
+  background-color: #00B7FF; /* Green */
+  border: none;
+  color: white;
+  padding: 10px 24px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover, input[type=submit]:hover {
+  background-color: #00b7ff93;
+}

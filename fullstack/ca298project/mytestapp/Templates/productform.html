@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}
+    Product Form
+{% endblock %}
+
+{% block content %}
+    <header>
+    <h3>Product Form</h3>
+    </header>
+
+    <form action="." method="POST">
+        {% csrf_token %}
+        {{ form.as_table }}
+        <input type="submit" value="Submit">
+    </form>
+{% endblock %}

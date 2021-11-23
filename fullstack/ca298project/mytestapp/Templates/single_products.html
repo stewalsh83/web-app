@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}
+    {{ product.name }}
+{% endblock %}
+
+{% block content %}
+    <header>
+      <h3>Single Product</h3>
+    </header>
+
+    {% if added %}
+        <div class="d-flex justify-content-center">
+        <h2>{{ product.name }} added to basket.</h2>
+        </div>
+    {% endif %}
+    <p>Product name {{ product.name }}</p>
+    <p>Product description {{ product.description }}</p>
+    <p>Product price {{ product.price }}</p>
+
+
+<div class="d-flex justify-content-center">
+    <div class="card" style="width: 18rem;">
+      <img class="card-img-top" src="{{ product.picture.url }}" alt="Card image cap">
+       <div class="card-body">
+         <h5 class="card-title">{{ product.name }}</h5>
+         <p class="card-text"> {{ product.description }}</p>
+           <a href="/addbasket/{{ product.id }}" class="btn btn-primary"><button> Buy - {{ product.price }}</button> </a>
+      </div>
+    </div>
+</div>
+{% endblock %}

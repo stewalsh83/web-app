@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    <%= title %>
+  </title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+
+</head>
+
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+    integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"
+    integrity="sha384-lpyLfhYuitXl2zRZ5Bn2fqnhNAKOAaM/0Kr9laMspuaMiZfGmfwRNFh8HlMy49eQ"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8"
+    crossorigin="anonymous"></script>
+
+  <body class="d-flex h-100 text-center text-white bg-dark">
+
+      <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <header class="mb-auto">
+          
+          <h3 class="float-md-start mb-0"><%= title %></h3>
+          
+        </header>
+
+        <main class="px-3">
+          <h1>The Station Place.</h1>
+          <p class="lead">A place to buy all your stationery supplies.</p>
+
+        </main>
+
+        <p>Welcome To Our Store
+        </p>
+        <table id="product-table">
+          <tr>
+            <td>Name</td>
+            <td>Description</td>
+            <td>Price</td>
+            <td>Image</td>
+            <td></td>
+          </tr>
+        </table>
+
+        <div id="shopping-basket-cont">
+          <button id="show-basket">Show basket</button>
+          <table id="shopping-basket">
+            <tr>
+              <td>Name</td>
+              <td>Price</td>
+              <td>Quantity</td>
+              <td>Total</td>
+            </tr>
+          </table>
+          <form id="checkout-form" method="POST" , action=".">
+            <label for="shipping_addr">Shipping Address</label>
+            <input type="text" name="shipping_addr" placeholder="Shipping address" id="shipping_addr">
+            <button id="checkout-button" type="submit">Checkout</button>
+          </form>
+        </div>
+
+        <form id="login-form" method="POST" , action=".">
+          <label for="username">Username</label>
+          <input id="form-username" name="username" type="text" placeholder="Your Username">
+          <label for="password">Password</label>
+          <input id="form-password" name="password" type="password" placeholder="Your Password">
+          <input type="submit" value="Login">
+        </form>
+
+        <script>
+          fetch("http://localhost:8000/api/products/?format=json") // make a request
+            .then(response => response.json()) // with our response, get the json data
+            .then(data => {
+              console.log(data) // log the json data
+              data.forEach(element => {
+                let table = document.getElementById("product-table")
+                let newRow = document.createElement("tr") // <tr> innerhtml </tr>
+                table.appendChild(newRow)
+
+                let name = document.createElement("td") // <td> innerhtml </td>
+                name.innerHTML = element['name']
+                newRow.appendChild(name)
+
+                let desc = document.createElement("td") // <td> innerhtml </td>
+                desc.innerHTML = element['description']
+                newRow.appendChild(desc)
+
+                let price = document.createElement("td") // <td> innerhtml </td>
+                price.innerHTML = element['price']
+                newRow.appendChild(price)
+
+                let picturetd = document.createElement("td")
+                let picture = document.createElement("img")
+                picture.src = element['picture']
+                newRow.appendChild(picturetd);
+                picturetd.appendChild(picture).width = "300"
+
+                let buttoncontainer = document.createElement("td")
+                let button = document.createElement("button")
+                button.innerHTML = "Add to basket"
+                button.addEventListener('click', function () {
+                  addToBasket(element['id']);
+                });
+                buttoncontainer.appendChild(button)
+                newRow.appendChild(buttoncontainer);
+
+              })
+            });
+
+          let loginform = document.getElementById("login-form")
+          loginform.addEventListener("submit", (event) => {
+            event.preventDefault();
+            let user = document.getElementById("form-username").value
+            let pass = document.getElementById("form-password").value
+            fetch("http://localhost:8000/token/", {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                //'Authorization': `Token ${auth_token}`
+              },
+              body: JSON.stringify({ username: user, password: pass })
+            }).then(response => response.json()).then(function (data) {
+              console.log(data)
+              window.token = data['token']
+            })
+          }, true)
+
+          function addToBasket(productId) {
+            if (window.token) {
+              fetch("http://localhost:8000/addbasket/" + productId + "?format=json", {
+                method: 'GET',
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+                  'Authorization': 'Token ' + window.token
+                } // ###
+              }).then(response => response.json()).then(data => console.log(data));
+            }
+            else {
+              alert("Please log in to contunue");
+            }
+          }
+
+          function showBasket() {
+            if (window.token) {
+              fetch("http://localhost:8000/basket/?format=json", { // added extra / after basket to prevent AttributeError at /basket/
+                method: 'GET',
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+                  'Authorization': 'Token ' + window.token
+                }
+                // }).then(response => response.json()).then(data=>console.log(data));
+              }).then(response => response.json()).then(data => {
+                data['items'].forEach(element => {
+                  let table = document.getElementById("shopping-basket")
+                  let newRow = document.createElement("tr")
+                  table.appendChild(newRow)
+                  let name = document.createElement("td")
+                  name.innerHTML = element['product']
+                  newRow.appendChild(name)
+                  let price = document.createElement("td")
+                  price.innerHTML = element['price']
+                  newRow.appendChild(price)
+                  let quantity = document.createElement("td")
+                  quantity.innerHTML = element['quantity']
+                  newRow.appendChild(quantity)
+                  let total = document.createElement("td")
+                  total.innerHTML = element['quantity'] * element['price']
+                  newRow.appendChild(total)
+
+                })
+              });
+            }
+            else {
+              alert("Please log in to continue");
+            }
+          }
+
+          let showbb = document.getElementById("show-basket")
+          showbb.addEventListener("click", (event) => {
+            event.preventDefault();
+            showBasket();
+          })
+
+          let checkoutbutton = document.getElementById("checkout-button");
+          checkoutbutton.addEventListener("click", (event) => {
+            event.preventDefault();
+            let sp_addr = document.getElementById("shipping_addr").value;
+            fetch("http://localhost:8000/checkout/?format=json", {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Token ' + window.token
+              },
+              body: JSON.stringify({ shipping_addr: sp_addr })
+            }).then(function(response) {
+              console.log(response)
+              return response.json()
+            }).then(function(data) {
+              console.log(data)
+            })
+          }, true);
+        </script>
+
+    <footer>
+      <h3>Shop with us!</h3>
+      <p>©️ 2021 The Station Place · DCU Student Project · Stephen Walsh · Mudiaga Jerry Dortie</p>
+    </footer>
+  </body>
+
+</html>

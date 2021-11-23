@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}
+    Products
+{% endblock %}
+
+{% block content %}
+    <header>
+      <h3>My Form</h3>
+    </header>
+
+<div class="d-flex justify-content-center">
+<div class="paper container">
+    <h2>Admin Access</h2>
+    <form action="/myform/" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_table }}
+        <input type="submit" value="Submit">
+    </form>
+</div>
+</div>
+{% endblock %}

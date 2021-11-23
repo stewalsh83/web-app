@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}
+    Shopping Basket
+{% endblock %}
+
+{% block content %}
+<div class="paper container">
+    <header>
+      <h3>Shopping Basket</h3>
+    <button onclick="document.location='/checkout'">Checkout</button>
+    </header>
+
+        <table>
+    <thead>
+    <tr>
+        <td>Item</td>
+        <td>Price</td>
+        <td>Quantity</td>
+        <td>Total</td>
+        <td></td>
+    </tr>
+    </thead>
+    <tbody>
+        {% for i in items %}
+            <tr>
+            <td>{{ i.product.name }}</td>
+            <td>{{ i.product.price }}</td>
+            <td>{{ i.quantity }}</td>
+            <td>{{ i.price }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+
+    <p> Total price {{ basket.price }}</p>
+    <form action="." method="POST">
+        {% csrf_token %}
+        {{ form.as_table }}
+{#        <input type="submit" value="Submit">#}
+    </form>
+</div>
+
+{% endblock %}
+
+
+
